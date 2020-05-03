@@ -27,11 +27,53 @@ body {
 
 	&__record-status-button {
 		display: block;
-		margin-top: 1rem;
+		margin: 1rem auto 0 auto;
 		font-size: 2rem;
 	}
 
 	&__marked {
 		color: green;
+	}
+
+	&__scoreboard {
+		display: flex;
+		flex-flow: row wrap;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 50vw;
+		height: 80vh;
+		background: #fff;
+		transform: translate( -50%, -50% );
+		border: 1px solid #d5d5d5;
+		box-shadow: 0 15px 15px -5px rgba( 0, 0, 0, 0.15 );
+	}
+
+	&__scoreboard-item {
+		width: 20%;
+		align-self: center;
+		text-align: center;
+	}
+
+	&__scoreboard-item-name {
+		font-size: 3rem;
+	}
+
+	&__scoreboard-close-button {
+		position: absolute;
+		top: 0;
+		right: 0;
+		padding: 15px;
+		background-color: tomato;
+		color: #fff;
+		font-weight: bold;
+		cursor: pointer;
+	}
+
+	&__scoreboard-item-score {
+		font-family: monospace;
+		color: red;
+		font-size: 1.25rem;
+		margin-top: 1rem;
 	}
 }

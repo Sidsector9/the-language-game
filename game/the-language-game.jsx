@@ -13,6 +13,7 @@ class TheLanguageGame extends React.Component {
 		this.updateRecordScoreStatus = this.updateRecordScoreStatus.bind( this );
 		this.generateScoreMapping = this.generateScoreMapping.bind( this );
 		this.updateSpeed = this.updateSpeed.bind( this );
+		this.toggleScoreBoard = this.toggleScoreBoard.bind( this );
 
 		this.intervalId = null;
 
@@ -23,6 +24,7 @@ class TheLanguageGame extends React.Component {
 			scoreChart: this.generateScoreMapping( this.props.syllables ),
 			mark: false,
 			speed: 5,
+			isReportOpen: false,
 		}
 	}
 
@@ -73,6 +75,9 @@ class TheLanguageGame extends React.Component {
 	}
 
 	iKnowThisSyllable() {
+		if ( ! this.state.recordScoreStatus ) {
+			return;
+		}
 
 		if ( this.state.mark ) {
 			return;
@@ -111,8 +116,14 @@ class TheLanguageGame extends React.Component {
 
 	updateSpeed( e ) {
 		this.setState( {
-			speed: e.target.value
+			speed: !! e.target.value ? e.target.value : 5
 		} );
+	}
+
+	toggleScoreBoard() {
+		this.setState( {
+			isReportOpen: ! this.state.isReportOpen,
+		} )
 	}
 
 	render() {
@@ -121,8 +132,15 @@ class TheLanguageGame extends React.Component {
 				<div className="tlg-app__container">
 					<div className={ `tlg-app__syllable ${ this.state.mark ? 'tlg-app__marked' : '' }` }>{ this.state.currentSyllable }</div>
 					{ ! this.state.recordScoreStatus && <label>Speed (in seconds):<input type="number" onChange={ this.updateSpeed } /></label> }
-					<button className="tlg-app__record-status-button" onClick={ this.updateRecordScoreStatus }>{ this.state.recordScoreStatus ? 'Stop Recording' : 'Start Recording' }</button>
+					<button className="tlg-app__record-status-button" onClick={ this.updateRecordScoreStatus }>{ this.state.recordScoreStatus ? 'Stop' : 'Start' }</button>
 				</div>
+				{ this.state.isReportOpen && <div className="tlg-app__scoreboard">
+					<div className="tlg-app__scoreboard-close-button" onClick={ this.toggleScoreBoard }>X</div>
+					{ this.state.scoreChart.map( ( item, index ) => ( <div key={ index } className="tlg-app__scoreboard-item">
+						<div className="tlg-app__scoreboard-item-name">{ item.syllable }</div>
+						<div className="tlg-app__scoreboard-item-score">{ item.score }</div>
+					</div> ) ) }
+				</div> }
 			</div>
 		)
 	}
