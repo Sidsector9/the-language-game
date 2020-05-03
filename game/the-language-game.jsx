@@ -129,6 +129,7 @@ class TheLanguageGame extends React.Component {
 	render() {
 		return (
 			<div tabIndex={ 0 } ref={ ( c ) => { this.ref = c } } onKeyDown={ this.iKnowThisSyllable } className="tlg-app">
+				{ ! this.state.isReportOpen && ! this.state.recordScoreStatus && <div className="tlg-app__scoreboard-button" onClick={ this.toggleScoreBoard }>Scoreboard</div> }
 				<div className="tlg-app__container">
 					<div className={ `tlg-app__syllable ${ this.state.mark ? 'tlg-app__marked' : '' }` }>{ this.state.currentSyllable }</div>
 					{ ! this.state.recordScoreStatus && <label>Speed (in seconds):<input type="number" onChange={ this.updateSpeed } /></label> }
