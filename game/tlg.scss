@@ -1,0 +1,37 @@
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+
+.tlg-app {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+	height: 100vh;
+	width: 100vw;
+	outline: 0;
+
+	&__container {
+		position: relative;
+		top: -8rem;
+		text-align: center;
+	}
+
+	&__syllable {
+		font-size: 10rem;
+		margin-bottom: 2rem;
+		min-height: 190px;
+	}
+
+	&__record-status-button {
+		display: block;
+		margin-top: 1rem;
+		font-size: 2rem;
+	}
+
+	&__marked {
+		color: green;
+	}
+}

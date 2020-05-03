@@ -22,5 +22,7 @@ if ( ! defined( 'TLG_PLUGIN_DIR_URL' ) ) {
 
 function tlg_enqueue_assets() {
 	wp_enqueue_script( 'tlg-script', TLG_PLUGIN_DIR_URL . 'dist/js/tlg-script.min.js', array(), null, true );
+	wp_dequeue_style( 'newsuk-style' );
+	wp_deregister_style( 'newsuk-style' );
 }
-add_action( 'wp_enqueue_scripts', 'tlg_enqueue_assets' );
+add_action( 'wp_enqueue_scripts', 'tlg_enqueue_assets', 9999, 1 );
