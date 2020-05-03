@@ -174,7 +174,7 @@ const TheLanguageGame = ( props ) => {
 
 	return (
 		<div role="button" tabIndex={ 0 } className="tlg-app" ref={ appContainer } onKeyDown={ updateMarkStatusWrapper }>
-			{ ! gameStatus && <div tabIndex={ 0 } role="button" className="tlg-app__scoreboard-button" onClick={ () => setScoreboardStatus( true ) } onKeyDown={ () => setScoreboardStatus( true ) }>Scoreboard</div> }
+			{ ! gameStatus && <div tabIndex={ 0 } role="button" className="tlg-app__scoreboard-button" onClick={ () => setScoreboardStatus( ! scoreboardStatus ) } onKeyDown={ () => setScoreboardStatus( true ) }>Scoreboard</div> }
 			<div className="tlg-app__container">
 				<div className={ `tlg-app__syllable ${ markStatus ? 'tlg-app__marked' : '' }` }>{ currentSyllable }</div>
 				{ ! gameStatus && <label htmlFor="tlg-speed-input">Speed (in seconds):<input id="tlg-speed-input" type="number" onChange={ ( e ) => updateSpeed( e.target.value ) } /></label> }
@@ -182,7 +182,6 @@ const TheLanguageGame = ( props ) => {
 			</div>
 
 			{ scoreboardStatus && ( <div className="tlg-app__scoreboard">
-				<div role="button" tabIndex={ 0 } className="tlg-app__scoreboard-close-button" onClick={ () => setScoreboardStatus( false ) } onKeyDown={ () => setScoreboardStatus( false ) }>X</div>
 				{ Object.keys( scoreMap ).map( ( syllable, index ) => ( <div key={ index } className="tlg-app__scoreboard-item">
 					<div className="tlg-app__scoreboard-item-name">{ syllable }</div>
 					<div className="tlg-app__scoreboard-item-score">{ scoreMap[ syllable ].score }</div>
