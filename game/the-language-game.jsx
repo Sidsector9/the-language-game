@@ -1,13 +1,21 @@
+/**
+ * External dependencies
+ */
 import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 
-import { syllables } from './syllables.jsx';
+/**
+ * Internal dependencies
+ */
+import { syllables as hiragana } from './syllables.jsx';
 import './tlg.scss';
 
 /**
  * Shuffles the array in a non-biased manner.
  *
  * @param {Array} array Input array to be shuffled.
+ *
+ * @return {Array} Shuffled array.
  */
 const shuffleArray = ( array ) => {
 	const newArray = [ ...array ];
@@ -22,7 +30,7 @@ const shuffleArray = ( array ) => {
 
 const TheLanguageGame = ( props ) => {
 	let i = 0;
-	let isShuffled = false;
+	const isShuffled = false;
 
 	const appContainer = useRef();
 
@@ -59,7 +67,7 @@ const TheLanguageGame = ( props ) => {
 	/**
 	 * The speed for the interval. Defaults to 5000ms.
 	 */
-	const [ speed, updateSpeed ] = useState( 1 );
+	const [ speed, updateSpeed ] = useState( 5 );
 
 	/**
 	 * Sets to true when a key is pressed on a syllable.
@@ -92,7 +100,7 @@ const TheLanguageGame = ( props ) => {
 		syllables.forEach( ( syllable ) => {
 			scoreMapHash[ syllable ] = {
 				score: 0,
-			}
+			};
 		} );
 		return scoreMapHash;
 	}
@@ -101,7 +109,6 @@ const TheLanguageGame = ( props ) => {
 	 * Marks the syllable after a key is pressed.
 	 */
 	const updateMarkStatusWrapper = () => {
-
 		/**
 		 * Return if already marked.
 		 * We don't want to mark a syllable multiple times, it will mess up the score.
@@ -166,16 +173,16 @@ const TheLanguageGame = ( props ) => {
 	}, [ i, isShuffled, gameStatus ] );
 
 	return (
-		<div tabIndex={ 0 } className="tlg-app" ref={ appContainer } onKeyDown={ updateMarkStatusWrapper }>
-			{ ! gameStatus && <div className="tlg-app__scoreboard-button" onClick={ () => setScoreboardStatus( true ) }>Scoreboard</div> }
+		<div role="button" tabIndex={ 0 } className="tlg-app" ref={ appContainer } onKeyDown={ updateMarkStatusWrapper }>
+			{ ! gameStatus && <div tabIndex={ 0 } role="button" className="tlg-app__scoreboard-button" onClick={ () => setScoreboardStatus( true ) } onKeyDown={ () => setScoreboardStatus( true ) }>Scoreboard</div> }
 			<div className="tlg-app__container">
 				<div className={ `tlg-app__syllable ${ markStatus ? 'tlg-app__marked' : '' }` }>{ currentSyllable }</div>
-				{ ! gameStatus && <label>Speed (in seconds):<input type="number" onChange={ ( e ) => updateSpeed( e.target.value ) } /></label> }
+				{ ! gameStatus && <label htmlFor="tlg-speed-input">Speed (in seconds):<input id="tlg-speed-input" type="number" onChange={ ( e ) => updateSpeed( e.target.value ) } /></label> }
 				<button className="tlg-app__record-status-button" onClick={ updateGameStatusWrapper }>{ gameStatus ? 'Stop' : 'Start' }</button>
 			</div>
 
 			{ scoreboardStatus && ( <div className="tlg-app__scoreboard">
-				<div className="tlg-app__scoreboard-close-button"onClick={ () => setScoreboardStatus( false ) }>X</div>
+				<div role="button" tabIndex={ 0 } className="tlg-app__scoreboard-close-button" onClick={ () => setScoreboardStatus( false ) } onKeyDown={ () => setScoreboardStatus( false ) }>X</div>
 				{ Object.keys( scoreMap ).map( ( syllable, index ) => ( <div key={ index } className="tlg-app__scoreboard-item">
 					<div className="tlg-app__scoreboard-item-name">{ syllable }</div>
 					<div className="tlg-app__scoreboard-item-score">{ scoreMap[ syllable ].score }</div>
@@ -186,7 +193,7 @@ const TheLanguageGame = ( props ) => {
 };
 
 const TheLanguageGameApp = () => {
-	return <TheLanguageGame syllables={ syllables } />
+	return <TheLanguageGame syllables={ hiragana } />;
 };
 
 ReactDOM.render( <TheLanguageGameApp />, document.getElementById( 'the-language-game-app' ) );
