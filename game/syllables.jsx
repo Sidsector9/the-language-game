@@ -1,0 +1,17 @@
+export const syllables = [
+	'a',
+	'i',
+	'u',
+	'e',
+	'o',
+	'ka',
+	'ki',
+	'ku',
+	'ke',
+	'ko',
+	'sa',
+	'shi',
+	'su',
+	'se',
+	'so',
+];
