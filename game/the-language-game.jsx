@@ -1,151 +1,189 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 
 import { syllables } from './syllables.jsx';
 import './tlg.scss';
 
-class TheLanguageGame extends React.Component {
-	constructor( props ) {
-		super( props );
+/**
+ * Shuffles the array in a non-biased manner.
+ *
+ * @param {Array} array Input array to be shuffled.
+ */
+const shuffleArray = ( array ) => {
+	const newArray = [ ...array ];
 
-		this.shuffleSyllables = this.shuffleSyllables.bind( this );
-		this.iKnowThisSyllable = this.iKnowThisSyllable.bind( this );
-		this.updateRecordScoreStatus = this.updateRecordScoreStatus.bind( this );
-		this.generateScoreMapping = this.generateScoreMapping.bind( this );
-		this.updateSpeed = this.updateSpeed.bind( this );
-		this.toggleScoreBoard = this.toggleScoreBoard.bind( this );
-
-		this.intervalId = null;
-
-		this.state = {
-			syllablleArray: this.props.syllables,
-			currentSyllable: '',
-			recordScoreStatus: false,
-			scoreChart: this.generateScoreMapping( this.props.syllables ),
-			mark: false,
-			speed: 5,
-			isReportOpen: false,
-		}
+	for ( let i = newArray.length - 1; i > 0; i-- ) {
+		const j = Math.floor( Math.random() * ( i + 1 ) );
+		[ newArray[ i ], newArray[ j ] ] = [ newArray[ j ], newArray[ i ] ];
 	}
 
-	componentDidMount() {
-		this.ref.focus();
+	return newArray;
+};
 
-		this.setState( {
-			syllablleArray: this.shuffleSyllables( this.state.syllablleArray ),
-		} );
+const TheLanguageGame = ( props ) => {
+	let i = 0;
+	let isShuffled = false;
+
+	const appContainer = useRef();
+
+	/**
+	 * Deconstruct props object.
+	 */
+	const { syllables } = props;
+
+	/**
+	 * Shuffle the syllable array.
+	 */
+	let syllablesArray;
+
+	/**
+	 * useEffect will run every time when a component is updated and we
+	 * don't want the syllable to shuffle on every render.
+	 *
+	 * This will shuffle once all syllables are iterated in the array.
+	 */
+	if ( ! isShuffled ) {
+		syllablesArray = shuffleArray( syllables );
 	}
 
-	componentDidUpdate( prevProps, prevState ) {
-		if ( prevState.recordScoreStatus !== this.state.recordScoreStatus ) {
-			let i = 0;
+	/**
+	 * The current syllable visible in the viewport and the function to update it.
+	 */
+	const [ currentSyllable, updateCurrentSyllable ] = useState( '' );
 
-			if ( ! this.state.recordScoreStatus ) {
-				clearInterval( this.intervalId )
-			} else {
-				this.setState( {
-					currentSyllable: this.state.syllablleArray[ i++ ]
-				} );
-				this.intervalId = setInterval( () => {
-					if ( this.state.syllablleArray.length - 1 === i ) {
-						this.setState( {
-							syllablleArray: this.shuffleSyllables( this.state.syllablleArray )
-						} );
-						i = 0;
-					}
-					
-					this.setState( {
-						currentSyllable: this.state.syllablleArray[ i++ ],
-						mark: false,
-					} );
-				}, this.state.speed * 1000 );
+	/**
+	 * Sets gameStatus to `true` when the game is started and `false` otherwise.
+	 */
+	const [ gameStatus, updateGameStatus ] = useState( false );
+
+	/**
+	 * The speed for the interval. Defaults to 5000ms.
+	 */
+	const [ speed, updateSpeed ] = useState( 1 );
+
+	/**
+	 * Sets to true when a key is pressed on a syllable.
+	 * Resets to false when a new syllable is rendered in the viewport.
+	 */
+	const [ markStatus, updateMarkStatus ] = useState( false );
+
+	/**
+	 * Maintains a hashmap of scores assign to each syllable.
+	 */
+	const [ scoreMap, updateScoreMap ] = useState( generateScoreMapping() );
+
+	/**
+	 * Toggles the visibility of the scoreboard.
+	 */
+	const [ scoreboardStatus, setScoreboardStatus ] = useState( false );
+
+	/**
+	 * Toggles `gameStatus` boolean when start | stopped and
+	 * then focuses on the container app.
+	 */
+	const updateGameStatusWrapper = () => {
+		updateGameStatus( ! gameStatus );
+		appContainer.current.focus();
+	};
+
+	function generateScoreMapping() {
+		const scoreMapHash = {};
+
+		syllables.forEach( ( syllable ) => {
+			scoreMapHash[ syllable ] = {
+				score: 0,
 			}
-		}
+		} );
+		return scoreMapHash;
 	}
 
-	shuffleSyllables( syllablleArray ) {
-		let newSyllableArray = [ ...syllablleArray ];
+	/**
+	 * Marks the syllable after a key is pressed.
+	 */
+	const updateMarkStatusWrapper = () => {
 
-		for ( let i = newSyllableArray.length - 1; i > 0; i-- ) {
-			const j = Math.floor( Math.random() * ( i + 1 ) );
-			[ newSyllableArray[ i ], newSyllableArray[ j ] ] = [ newSyllableArray[ j ], newSyllableArray[ i ] ];
-		}
-		
-		return newSyllableArray;
-	}
-
-	iKnowThisSyllable() {
-		if ( ! this.state.recordScoreStatus ) {
+		/**
+		 * Return if already marked.
+		 * We don't want to mark a syllable multiple times, it will mess up the score.
+		 */
+		if ( markStatus ) {
 			return;
 		}
 
-		if ( this.state.mark ) {
+		/**
+		 * Mark only if the game has started, else return.
+		 */
+		if ( ! gameStatus ) {
 			return;
 		}
 
-		let updatedScoreChart;
+		updateMarkStatus( true );
 
-		updatedScoreChart = this.state.scoreChart.map( ( item ) => {
-			if ( item.syllable === this.state.currentSyllable ) {
-				++item.score;
-			}
+		/**
+		 * Update the score of the current syllable in the viewport.
+		 */
+		const newScoreMap = { ...scoreMap };
+		newScoreMap[ currentSyllable ].score++;
+		updateScoreMap( newScoreMap );
+	};
 
-			return item;
-		} );
+	useEffect( () => {
+		let intervalId;
 
-		this.setState( {
-			scoreChart: updatedScoreChart,
-			mark: true,
-		} )
-	}
+		if ( gameStatus ) {
+			/**
+			 * Without this line the game would start after `speed` seconds.
+			 */
+			updateCurrentSyllable( syllablesArray[ i++ ] );
 
-	updateRecordScoreStatus() {
-		this.setState( {
-			recordScoreStatus: ! this.state.recordScoreStatus
-		}, () => {
-			this.ref.focus();
-		} );
-	}
+			/**
+			 * Executes a callback every `speed` seconds.
+			 */
+			intervalId = setInterval( () => {
+				/**
+				 * Reset `i` = 0 when it has iterated over the array then reshuffle.
+				 */
+				if ( syllablesArray.length === i ) {
+					i = 0;
+					syllablesArray = shuffleArray( syllables );
+				}
 
-	generateScoreMapping( syllablleArray ) {
-		return syllablleArray.map( ( syllable ) => ( {
-			syllable,
-			score: 0,
-		} ) );
-	}
+				/**
+				 * Updates the value of the current syllable in the viewport.
+				 */
+				updateCurrentSyllable( syllablesArray[ i++ ] );
 
-	updateSpeed( e ) {
-		this.setState( {
-			speed: !! e.target.value ? e.target.value : 5
-		} );
-	}
+				/**
+				 * Removes the mark for the next syllable.
+				 */
+				updateMarkStatus( false );
+			}, speed * 1000 );
+		} else {
+			clearInterval( intervalId );
+		}
 
-	toggleScoreBoard() {
-		this.setState( {
-			isReportOpen: ! this.state.isReportOpen,
-		} )
-	}
+		return () => clearInterval( intervalId );
+	}, [ i, isShuffled, gameStatus ] );
 
-	render() {
-		return (
-			<div tabIndex={ 0 } ref={ ( c ) => { this.ref = c } } onKeyDown={ this.iKnowThisSyllable } className="tlg-app">
-				{ ! this.state.isReportOpen && ! this.state.recordScoreStatus && <div className="tlg-app__scoreboard-button" onClick={ this.toggleScoreBoard }>Scoreboard</div> }
-				<div className="tlg-app__container">
-					<div className={ `tlg-app__syllable ${ this.state.mark ? 'tlg-app__marked' : '' }` }>{ this.state.currentSyllable }</div>
-					{ ! this.state.recordScoreStatus && <label>Speed (in seconds):<input type="number" onChange={ this.updateSpeed } /></label> }
-					<button className="tlg-app__record-status-button" onClick={ this.updateRecordScoreStatus }>{ this.state.recordScoreStatus ? 'Stop' : 'Start' }</button>
-				</div>
-				{ this.state.isReportOpen && <div className="tlg-app__scoreboard">
-					<div className="tlg-app__scoreboard-close-button" onClick={ this.toggleScoreBoard }>X</div>
-					{ this.state.scoreChart.map( ( item, index ) => ( <div key={ index } className="tlg-app__scoreboard-item">
-						<div className="tlg-app__scoreboard-item-name">{ item.syllable }</div>
-						<div className="tlg-app__scoreboard-item-score">{ item.score }</div>
-					</div> ) ) }
-				</div> }
+	return (
+		<div tabIndex={ 0 } className="tlg-app" ref={ appContainer } onKeyDown={ updateMarkStatusWrapper }>
+			{ ! gameStatus && <div className="tlg-app__scoreboard-button" onClick={ () => setScoreboardStatus( true ) }>Scoreboard</div> }
+			<div className="tlg-app__container">
+				<div className={ `tlg-app__syllable ${ markStatus ? 'tlg-app__marked' : '' }` }>{ currentSyllable }</div>
+				{ ! gameStatus && <label>Speed (in seconds):<input type="number" onChange={ ( e ) => updateSpeed( e.target.value ) } /></label> }
+				<button className="tlg-app__record-status-button" onClick={ updateGameStatusWrapper }>{ gameStatus ? 'Stop' : 'Start' }</button>
 			</div>
-		)
-	}
-}
+
+			{ scoreboardStatus && ( <div className="tlg-app__scoreboard">
+				<div className="tlg-app__scoreboard-close-button"onClick={ () => setScoreboardStatus( false ) }>X</div>
+				{ Object.keys( scoreMap ).map( ( syllable, index ) => ( <div key={ index } className="tlg-app__scoreboard-item">
+					<div className="tlg-app__scoreboard-item-name">{ syllable }</div>
+					<div className="tlg-app__scoreboard-item-score">{ scoreMap[ syllable ].score }</div>
+				</div> ) ) }
+			</div> ) }
+		</div>
+	);
+};
 
 const TheLanguageGameApp = () => {
 	return <TheLanguageGame syllables={ syllables } />

@@ -6,7 +6,6 @@
 	"license": "MIT",
 	"dependencies": {
 		"@wordpress/blocks": "^6.15.0",
-		"@wordpress/scripts": "^9.0.0",
 		"react": "^16.13.1",
 		"react-contenteditable": "^3.3.4",
 		"react-dom": "^16.13.1",
@@ -25,6 +24,7 @@
 		"webpack-cli": "^3.3.11"
 	},
 	"scripts": {
-		"dev": "webpack --watch --mode=development"
+		"dev": "webpack --watch --mode=development",
+		"lint:js": "wp-scripts lint-js"
 	}
 }
