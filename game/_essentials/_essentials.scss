@@ -1,12 +1,10 @@
-@mixin font-primary {
-	font-family: 'Times New Roman', Times, serif;
-}
+$family-sans-serif: 'Times new roman';
 
-@mixin reset-input {
-	padding: 0;
-	border: 0;
+@import "../../node_modules/bulma/sass/utilities/_all.sass";
+@import "../../node_modules/bulma/sass/base/_all.sass";
+@import "../../node_modules/bulma/sass/elements/_all.sass";
+@import "../../node_modules/bulma/sass/form/_all.sass";
+@import "../../node_modules/bulma/sass/components/_all.sass";
+@import "../../node_modules/bulma/sass/grid/_all.sass";
+@import "../../node_modules/bulma/sass/layout/_all.sass";
 
-	&:focus {
-		box-shadow: 0 0 0 rgba( 0, 0, 0, 0 );
-	}
-}

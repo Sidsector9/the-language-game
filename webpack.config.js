@@ -3,11 +3,11 @@ const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
 
 module.exports = {
 	entry: {
-		'tlg-script' : './game/_index.jsx',
+		'tlg-script': './game/_index.jsx',
 	},
 	output: {
 		path: path.resolve( __dirname, 'dist' ),
-		filename: 'js/[name].min.js'
+		filename: 'js/[name].min.js',
 	},
 	module: {
 		rules: [
@@ -15,28 +15,29 @@ module.exports = {
 				test: /\.(js|jsx)$/,
 				exclude: /node_modules/,
 				use: {
-					loader: "babel-loader"
-				}
+					loader: 'babel-loader',
+				},
 			},
 			{
 				test: /\.s[ac]ss$/i,
 				use: [
 					'style-loader',
 					'css-loader',
+					'resolve-url-loader',
 					'sass-loader',
 					{
 						loader: 'sass-resources-loader',
 						options: {
 							resources: [ './game/_essentials/_essentials.scss' ],
-						}
-					}
-				]
-			}
-		]
+						},
+					},
+				],
+			},
+		],
 	},
 	plugins: [
 		new MiniCssExtractPlugin( {
 			filename: 'css/[name].min.css',
-		} )
-	]
+		} ),
+	],
 };
