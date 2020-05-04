@@ -7,6 +7,7 @@ import ReactDOM from 'react-dom';
 /**
  * Internal dependencies
  */
+import { Scoreboard } from './scoreboard/scoreboard.jsx';
 import { syllables as hiragana } from './syllables.jsx';
 import './tlg.scss';
 
@@ -176,17 +177,12 @@ const TheLanguageGame = ( props ) => {
 		<div role="button" tabIndex={ 0 } className="tlg-app" ref={ appContainer } onKeyDown={ updateMarkStatusWrapper }>
 			{ ! gameStatus && <div tabIndex={ 0 } role="button" className="tlg-app__scoreboard-button" onClick={ () => setScoreboardStatus( ! scoreboardStatus ) } onKeyDown={ () => setScoreboardStatus( true ) }>Scoreboard</div> }
 			<div className="tlg-app__container">
-				<div className={ `tlg-app__syllable ${ markStatus ? 'tlg-app__marked' : '' }` }>{ currentSyllable }</div>
+				<div className={ `tlg-app__syllable ${ markStatus ? 'has-text-primary' : '' }` }>{ currentSyllable }</div>
 				{ ! gameStatus && <input placeholder="Speed (in seconds)" className="input is-primary" id="tlg-speed-input" type="number" onChange={ ( e ) => updateSpeed( e.target.value ) } /> }
-				<button className="tlg-app__record-status-button button is-primary is-medium" onClick={ updateGameStatusWrapper }>{ gameStatus ? 'Stop' : 'Start' }</button>
+				<button className="tlg-app__play-button button is-primary is-medium" onClick={ updateGameStatusWrapper }>{ gameStatus ? 'Stop' : 'Start' }</button>
 			</div>
 
-			{ scoreboardStatus && ( <div className="tlg-app__scoreboard">
-				{ Object.keys( scoreMap ).map( ( syllable, index ) => ( <div key={ index } className="tlg-app__scoreboard-item">
-					<div className="tlg-app__scoreboard-item-name">{ syllable }</div>
-					<div className="tlg-app__scoreboard-item-score">{ scoreMap[ syllable ].score }</div>
-				</div> ) ) }
-			</div> ) }
+			<Scoreboard scoreMap={ scoreMap } scoreboardStatus={ scoreboardStatus } setScoreboardStatus={ setScoreboardStatus } />
 		</div>
 	);
 };
