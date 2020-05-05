@@ -16,7 +16,7 @@ export const Scoreboard = ( props ) => {
 			<div tabIndex={ 0 } role="button" className="modal-background" onClick={ () => setScoreboardStatus( false ) } onKeyDown={ () => setScoreboardStatus( false ) }></div>
 			<div className="modal-card">
 				<header className="modal-card-head">
-					<p className="modal-card-title">Score:</p>
+					<p className="modal-card-title">Scoreboard</p>
 					<button className="delete" aria-label="close" onClick={ () => setScoreboardStatus( false ) }></button>
 				</header>
 				<section className="modal-card-foot">
