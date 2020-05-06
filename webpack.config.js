@@ -40,4 +40,7 @@ module.exports = {
 			filename: 'css/[name].min.css',
 		} ),
 	],
+	devServer: {
+		open: true,
+	},
 };
