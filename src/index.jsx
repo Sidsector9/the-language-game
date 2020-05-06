@@ -1,0 +1,1 @@
+import './game/the-language-game-app';

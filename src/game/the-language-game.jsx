@@ -2,13 +2,11 @@
  * External dependencies
  */
 import React, { useState, useEffect, useRef } from 'react';
-import ReactDOM from 'react-dom';
 
 /**
  * Internal dependencies
  */
 import { Scoreboard } from './scoreboard/scoreboard.jsx';
-import { syllables as hiragana } from './syllables.jsx';
 import './tlg.scss';
 
 /**
@@ -29,7 +27,7 @@ const shuffleArray = ( array ) => {
 	return newArray;
 };
 
-const TheLanguageGame = ( props ) => {
+export const TheLanguageGame = ( props ) => {
 	let i = 0;
 	const isShuffled = false;
 
@@ -186,8 +184,3 @@ const TheLanguageGame = ( props ) => {
 	);
 };
 
-const TheLanguageGameApp = () => {
-	return <TheLanguageGame syllables={ hiragana } />;
-};
-
-ReactDOM.render( <TheLanguageGameApp />, document.getElementById( 'the-language-game-app' ) );
