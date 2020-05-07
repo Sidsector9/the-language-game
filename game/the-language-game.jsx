@@ -98,8 +98,9 @@ const TheLanguageGame = ( props ) => {
 	function generateScoreMapping() {
 		const scoreMapHash = {};
 
-		syllables.forEach( ( syllable ) => {
-			scoreMapHash[ syllable ] = {
+		syllables.forEach( ( syllableObject ) => {
+			scoreMapHash[ syllableObject.syllable ] = {
+				...syllableObject,
 				score: 0,
 			};
 		} );
@@ -177,9 +178,9 @@ const TheLanguageGame = ( props ) => {
 		<div role="button" tabIndex={ 0 } className="tlg-app" ref={ appContainer } onKeyDown={ updateMarkStatusWrapper }>
 			{ ! gameStatus && <div tabIndex={ 0 } role="button" className="tlg-app__scoreboard-button" onClick={ () => setScoreboardStatus( ! scoreboardStatus ) } onKeyDown={ () => setScoreboardStatus( true ) }>Scoreboard</div> }
 			<div className="tlg-app__container">
-				<div className={ `tlg-app__syllable ${ markStatus ? 'has-text-primary' : '' }` }>{ currentSyllable }</div>
+				<div className={ `tlg-app__syllable ${ markStatus ? 'has-text-primary' : '' }` }>{ currentSyllable.syllable }</div>
 				{ ! gameStatus && <input placeholder="Speed (in seconds)" className="input is-primary" id="tlg-speed-input" type="number" value={ speed } onChange={ ( e ) => updateSpeed( Number( e.target.value ) < 1 && '' !== e.target.value ? 1 : e.target.value ) } /> }
-				<button className="tlg-app__play-button button is-primary is-medium" disabled={ !speed } onClick={ updateGameStatusWrapper }>{ gameStatus ? 'Stop' : 'Start' }</button>
+				<button className="tlg-app__play-button button is-primary is-medium" disabled={ ! speed } onClick={ updateGameStatusWrapper }>{ gameStatus ? 'Stop' : 'Start' }</button>
 			</div>
 
 			<Scoreboard scoreMap={ scoreMap } scoreboardStatus={ scoreboardStatus } setScoreboardStatus={ setScoreboardStatus } />
