@@ -1,46 +1,51 @@
 const path = require( 'path' );
+const HtmlWebpackPlugin = require( 'html-webpack-plugin' );
 const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
+const OptimizeCssAssetsPlugin = require( 'optimize-css-assets-webpack-plugin' );
 
 module.exports = {
 	entry: {
-		'tlg-script': './game/_index.jsx',
+		'tlg-game': './src/index.jsx',
 	},
 	output: {
-		path: path.resolve( __dirname, 'dist' ),
-		filename: 'js/[name].min.js',
+		path: path.resolve( __dirname, 'public' ),
+		filename: '[name]-[hash].js',
 	},
 	module: {
 		rules: [
 			{
-				test: /\.(js|jsx)$/,
+				test: /\.js|.jsx$/,
 				exclude: /node_modules/,
-				use: {
-					loader: 'babel-loader',
-				},
+				loader: "babel-loader"
 			},
 			{
 				test: /\.s[ac]ss$/i,
 				use: [
-					'style-loader',
+					MiniCssExtractPlugin.loader,
 					'css-loader',
 					'resolve-url-loader',
 					'sass-loader',
 					{
 						loader: 'sass-resources-loader',
 						options: {
-							resources: [ './game/_essentials/_essentials.scss' ],
+							resources: [ './src/game/_essentials/_essentials.scss' ],
 						},
 					},
 				],
-			},
+			}
 		],
 	},
 	plugins: [
-		new MiniCssExtractPlugin( {
-			filename: 'css/[name].min.css',
+		new HtmlWebpackPlugin( {
+			template: 'index.html',
+			inject: 'body',
 		} ),
+		new MiniCssExtractPlugin( {
+			filename: '[name]-[hash].css'
+		} ),
+		new OptimizeCssAssetsPlugin(),
 	],
 	devServer: {
 		open: true,
-	},
+	}
 };
