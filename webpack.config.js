@@ -9,7 +9,7 @@ module.exports = {
 		'tlg-game': './src/index.jsx',
 	},
 	output: {
-		path: path.resolve( __dirname, 'public' ),
+		path: path.resolve( __dirname, 'docs' ),
 		filename: '[name]-[hash].js',
 	},
 	module: {
