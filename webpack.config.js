@@ -4,10 +4,12 @@ const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
 const OptimizeCssAssetsPlugin = require( 'optimize-css-assets-webpack-plugin' );
 
 module.exports = {
-	entry: './src/index.jsx',
+	entry: {
+		'tlg-game': './src/index.jsx',
+	},
 	output: {
 		path: path.resolve( __dirname, 'public' ),
-		filename: 'bundle.js',
+		filename: '[name]-[hash].js',
 	},
 	module: {
 		rules: [
@@ -39,7 +41,7 @@ module.exports = {
 			inject: 'body',
 		} ),
 		new MiniCssExtractPlugin( {
-			filename: 'bundle.css'
+			filename: '[name]-[hash].css'
 		} ),
 		new OptimizeCssAssetsPlugin(),
 	],
