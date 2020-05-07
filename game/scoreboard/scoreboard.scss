@@ -20,10 +20,15 @@
 		width: 20%;
 		align-self: center;
 		text-align: center;
-		padding: 15px 0;
+		padding: 24px 0;
+	}
+	
+	
+	&__scoreboard-item-translation {
+		font-size: 1.8rem;
 	}
 
-	&__scoreboard-item-name {
+	&__scoreboard-item-syllable {
 		font-size: 3rem;
 	}
 

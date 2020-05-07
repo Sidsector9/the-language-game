@@ -22,7 +22,8 @@ export const Scoreboard = ( props ) => {
 				<section className="modal-card-foot">
 					<div className="tlg-app__scoreboard">
 						{ Object.keys( scoreMap ).map( ( syllable, index ) => ( <div key={ index } className="tlg-app__scoreboard-item">
-							<div className="tlg-app__scoreboard-item-name">{ syllable }</div>
+							<div className="tlg-app__scoreboard-item-translation">{ scoreMap[ syllable ].translation }</div>
+							<div className="tlg-app__scoreboard-item-syllable">{ syllable }</div>
 							<div className="tlg-app__scoreboard-item-score">{ scoreMap[ syllable ].score }</div>
 						</div> ) ) }
 					</div>
