@@ -179,7 +179,7 @@ const TheLanguageGame = ( props ) => {
 			<div className="tlg-app__container">
 				<div className={ `tlg-app__syllable ${ markStatus ? 'has-text-primary' : '' }` }>{ currentSyllable }</div>
 				{ ! gameStatus && <input placeholder="Speed (in seconds)" className="input is-primary" id="tlg-speed-input" type="number" value={ speed } onChange={ ( e ) => updateSpeed( Number( e.target.value ) < 1 && '' !== e.target.value ? 1 : e.target.value ) } /> }
-				<button className="tlg-app__play-button button is-primary is-medium" onClick={ updateGameStatusWrapper }>{ gameStatus ? 'Stop' : 'Start' }</button>
+				<button className="tlg-app__play-button button is-primary is-medium" disabled={ !speed } onClick={ updateGameStatusWrapper }>{ gameStatus ? 'Stop' : 'Start' }</button>
 			</div>
 
 			<Scoreboard scoreMap={ scoreMap } scoreboardStatus={ scoreboardStatus } setScoreboardStatus={ setScoreboardStatus } />
