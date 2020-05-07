@@ -39,7 +39,7 @@ module.exports = {
 	plugins: [
 		new CleanWebpackPlugin(),
 		new HtmlWebpackPlugin( {
-			template: 'index.html',
+			template: 'index.ejs',
 			inject: 'body',
 		} ),
 		new MiniCssExtractPlugin( {
