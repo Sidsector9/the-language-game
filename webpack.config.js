@@ -16,8 +16,19 @@ module.exports = {
 				loader: "babel-loader"
 			},
 			{
-				test: /\.scss/i,
-				use: [ MiniCssExtractPlugin.loader, 'css-loader', 'resolve-url-loader', 'sass-loader' ],
+				test: /\.s[ac]ss$/i,
+				use: [
+					MiniCssExtractPlugin.loader,
+					'css-loader',
+					'resolve-url-loader',
+					'sass-loader',
+					{
+						loader: 'sass-resources-loader',
+						options: {
+							resources: [ './src/game/_essentials/_essentials.scss' ],
+						},
+					},
+				],
 			}
 		],
 	},

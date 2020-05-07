@@ -1,2 +1,1 @@
-import './game/game.jsx'
-import './game/game.scss';
+import './game/the-language-game.jsx';

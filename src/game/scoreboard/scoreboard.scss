@@ -1,0 +1,40 @@
+.tlg-app {
+	&__scoreboard-button {
+		position: fixed;
+		top: 30px;
+		right: 30px;
+		cursor: pointer;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+
+	&__scoreboard {
+		display: flex;
+		flex-flow: row wrap;
+		width: 100%;
+	}
+
+	&__scoreboard-item {
+		width: 20%;
+		align-self: center;
+		text-align: center;
+		padding: 24px 0;
+	}
+	
+	
+	&__scoreboard-item-translation {
+		font-size: 1.8rem;
+	}
+
+	&__scoreboard-item-syllable {
+		font-size: 3rem;
+	}
+
+	&__scoreboard-item-score {
+		font-family: monospace;
+		color: red;
+		font-size: 1.25rem;
+	}
+}
