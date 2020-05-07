@@ -1,33 +1,17 @@
 {
-	"name": "newsuk-blocks",
-	"version": "1.0.0",
+	"name": "the-language-game",
+	"version": "0.1.0",
 	"main": "index.js",
 	"author": "Siddharth Thevaril <siddharth.thevaril@gmail.com>",
 	"license": "MIT",
-	"dependencies": {
-		"bulma": "^0.8.2",
-		"react": "^16.13.1",
-		"react-dom": "^16.13.1",
-		"sass-resources-loader": "^2.0.3"
-	},
+	"dependencies": {},
 	"devDependencies": {
-		"@babel/core": "^7.9.6",
-		"@babel/preset-react": "^7.9.4",
-		"@wordpress/eslint-plugin": "2.3.0",
-		"babel-loader": "^8.1.0",
-		"css-loader": "^3.5.3",
-		"eslint": "5.14.1",
-		"mini-css-extract-plugin": "^0.9.0",
-		"resolve-url-loader": "^3.1.1",
-		"sass": "^1.26.5",
-		"sass-loader": "^8.0.2",
-		"style-loader": "^1.2.1",
+		"html-webpack-plugin": "^4.3.0",
 		"webpack": "^4.43.0",
 		"webpack-cli": "^3.3.11",
 		"webpack-dev-server": "^3.10.3"
 	},
 	"scripts": {
-		"dev": "webpack-dev-server",
-		"lint:js": "wp-scripts lint-js"
+		"dev": "webpack-dev-server"
 	}
 }
