@@ -17,7 +17,10 @@ module.exports = {
 		],
 	},
 	plugins: [
-		new HtmlWebpackPlugin(),
+		new HtmlWebpackPlugin( {
+			template: 'index.html',
+			inject: 'body',
+		} ),
 		new MiniCssExtractPlugin( {
 			filename: 'bundle.css'
 		} ),
