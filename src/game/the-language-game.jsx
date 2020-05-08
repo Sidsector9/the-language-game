@@ -35,7 +35,6 @@ const shuffleArray = ( array ) => {
 export const InfoBarContext = createContext();
 export const SyllableViewportContext = createContext();
 export const ControlBarContext = createContext();
-export const TimerBarContext = createContext();
 
 const TheLanguageGame = ( props ) => {
 	let i = 0;
@@ -226,7 +225,7 @@ const TheLanguageGame = ( props ) => {
 	}, [ i, isShuffled, gameStatus ] );
 
 	return (
-		<>y
+		<>
 			<div role="button" tabIndex={ 0 } className={ `tlg-app tlg-app--${ theme }` } ref={ appContainer } onKeyDown={ updateMarkStatusWrapper }>
 				<h1 className="tlg-app__title">The<br />Language<br />Game</h1>
 				<div className="tlg-app__container">
@@ -237,10 +236,10 @@ const TheLanguageGame = ( props ) => {
 					<SyllableViewportContext.Provider value={ syllableViewportContextData }>
 						<SyllableViewport />
 					</SyllableViewportContext.Provider>
-					
-					<TimerBarContext.Provider>
-						<TimerBar />
-					</TimerBarContext.Provider>
+
+					<div className="tlg-app__timer-bar-wrapper">
+						{ gameStatus && <TimerBar duration={ speed } /> }
+					</div>
 					
 					<ControlBarContext.Provider value={ controlBarContextData }>
 						<ControlBar />

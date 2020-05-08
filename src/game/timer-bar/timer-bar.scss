@@ -1,24 +1,35 @@
-.meter { 
-    height: 20px;
-    position: relative;
-    background: grey;  
+.tlg-app {
+	&__progress-bar {
+		height: 10px;
+		position: relative;
+		background: #2c3e50; 
+	}
+
+	&__progress-bar-container {
+		display: block;
+		height: 100%;
+	}
+
+	&__progress-bar-dummy {
+		height: 10px;
+	}
 }
 
-.meter span {
-    display: block;
-    height: 100%;
+.tlg-app__progress-bar-entity {
+	display: block;
+    background-color: #27ae60;
+    animation: progress-bar 5s linear;
+    animation-fill-mode: backwards;
+    animation-direction: reverse;
+	animation-iteration-count: infinite;
+	height: 100%;
 }
 
-
-.progress {
-    background-color: rgba(231, 76, 60, 1.0);
-    -webkit-animation: progressBar 10s linear;
-    -webkit-animation-fill-mode: backwards;
-    -webkit-animation-direction: reverse;
-    -webkit-animation-iteration-count: infinite; 
-}
-
-@-webkit-keyframes progressBar {
-  0% { width: 0; }
-  100% { width: 100%; }
+@keyframes progress-bar {
+	0% {
+		width: 0;
+	}
+	100% {
+		width: 100%;
+	}
 }

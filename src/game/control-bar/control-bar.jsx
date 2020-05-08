@@ -19,8 +19,8 @@ export const ControlBar = () => {
 			</div>
 
 			<div className="tlg-app__control-bar__buttons">
-				<FontAwesomeIcon icon={ gameStatus ? faPause : faPlay } onClick={ updateGameStatusWrapper } />
-				<FontAwesomeIcon icon={ faRedoAlt } onClick={ restartGame } />
+				<FontAwesomeIcon style={ { color: '#2c3e50' } } icon={ gameStatus ? faPause : faPlay } onClick={ updateGameStatusWrapper } />
+				<FontAwesomeIcon style={ { color: '#2c3e50' } } icon={ faRedoAlt } onClick={ restartGame } />
 			</div>
 		</div>
 	);
