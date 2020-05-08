@@ -1,0 +1,23 @@
+.tlg-app {
+	&__controls {
+		display: flex;
+		flex-flow: column wrap;
+		position: fixed;
+		right: 0;
+		width: 100%;
+		height: 100%;
+		max-width: 300px;
+		border-left: 1px solid $primary;
+		justify-content: center;
+	}
+
+	&__controls-item {
+		cursor: pointer;
+		padding: 10px 15px;
+		border-bottom: 1px solid $primary;
+
+		&:first-child {
+			border-top: 1px solid $primary;
+		}
+	}
+}

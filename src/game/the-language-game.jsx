@@ -1,13 +1,15 @@
 /**
  * External dependencies
  */
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, createContext } from 'react';
 import ReactDOM from 'react-dom';
 
 /**
  * Internal dependencies
  */
-import { Scoreboard } from './scoreboard/scoreboard.jsx';
+import { ScoreboardModal } from './scoreboard-modal/scoreboard-modal.jsx';
+import { CycleHistoryModal } from './cycle-history-modal/cycle-history-modal.jsx';
+import { ControlBar } from './controls/controls.jsx';
 import { syllables as hiragana } from './syllables.jsx';
 import './tlg.scss';
 
@@ -28,6 +30,8 @@ const shuffleArray = ( array ) => {
 
 	return newArray;
 };
+
+export const ControlBarContext = createContext();
 
 const TheLanguageGame = ( props ) => {
 	let i = 0;
@@ -81,10 +85,32 @@ const TheLanguageGame = ( props ) => {
 	 */
 	const [ scoreMap, updateScoreMap ] = useState( generateScoreMapping() );
 
+	const [ cycleHistory, updateCycleHistory ] = useState( [] );
+
 	/**
-	 * Toggles the visibility of the scoreboard.
+	 * Toggles the visibility of the scoreboard modal.
 	 */
-	const [ scoreboardStatus, setScoreboardStatus ] = useState( false );
+	const [ scoreboardModalStatus, setScoreboardModalStatus ] = useState( false );
+
+	/**
+	 * Toggles the visibility of the cycle history modal.
+	 */
+	const [ cycleHistoryModalStatus, setCycleHistoryModalStatus ] = useState( false );
+
+	const controlBarContextData = {
+		scoreMap,
+		gameStatus,
+		cycleHistory,
+		uniqueSyllablesCount: syllablesArray.length,
+		modalStatuses: {
+			scoreboardModalStatus,
+			cycleHistoryModalStatus,
+		},
+		modalSetters: {
+			setScoreboardModalStatus,
+			setCycleHistoryModalStatus,
+		}
+	}
 
 	/**
 	 * Toggles `gameStatus` boolean when start | stopped and
@@ -104,6 +130,7 @@ const TheLanguageGame = ( props ) => {
 				score: 0,
 			};
 		} );
+
 		return scoreMapHash;
 	}
 
@@ -132,7 +159,7 @@ const TheLanguageGame = ( props ) => {
 		 * Update the score of the current syllable in the viewport.
 		 */
 		const newScoreMap = { ...scoreMap };
-		newScoreMap[ currentSyllable ].score++;
+		newScoreMap[ currentSyllable.syllable ].score++;
 		updateScoreMap( newScoreMap );
 	};
 
@@ -143,7 +170,10 @@ const TheLanguageGame = ( props ) => {
 			/**
 			 * Without this line the game would start after `speed` seconds.
 			 */
-			updateCurrentSyllable( syllablesArray[ i++ ] );
+			updateCurrentSyllable( syllablesArray[ i ] );
+			cycleHistory.push( syllablesArray[ i ] )
+			updateCycleHistory( cycleHistory );
+			i++;
 
 			/**
 			 * Executes a callback every `speed` seconds.
@@ -160,7 +190,10 @@ const TheLanguageGame = ( props ) => {
 				/**
 				 * Updates the value of the current syllable in the viewport.
 				 */
-				updateCurrentSyllable( syllablesArray[ i++ ] );
+				updateCurrentSyllable( syllablesArray[ i ] );
+				cycleHistory.push( syllablesArray[ i ] );
+				updateCycleHistory( cycleHistory );
+				i++;
 
 				/**
 				 * Removes the mark for the next syllable.
@@ -176,14 +209,16 @@ const TheLanguageGame = ( props ) => {
 
 	return (
 		<div role="button" tabIndex={ 0 } className="tlg-app" ref={ appContainer } onKeyDown={ updateMarkStatusWrapper }>
-			{ ! gameStatus && <div tabIndex={ 0 } role="button" className="tlg-app__scoreboard-button" onClick={ () => setScoreboardStatus( ! scoreboardStatus ) } onKeyDown={ () => setScoreboardStatus( true ) }>Scoreboard</div> }
+			<ControlBarContext.Provider value={ controlBarContextData }>
+				<ControlBar />
+				<ScoreboardModal />
+				<CycleHistoryModal />
+			</ControlBarContext.Provider>
 			<div className="tlg-app__container">
 				<div className={ `tlg-app__syllable ${ markStatus ? 'has-text-primary' : '' }` }>{ currentSyllable.syllable }</div>
 				{ ! gameStatus && <input placeholder="Speed (in seconds)" className="input is-primary" id="tlg-speed-input" type="number" value={ speed } onChange={ ( e ) => updateSpeed( Number( e.target.value ) < 1 && '' !== e.target.value ? 1 : e.target.value ) } /> }
 				<button className="tlg-app__play-button button is-primary is-medium" disabled={ ! speed } onClick={ updateGameStatusWrapper }>{ gameStatus ? 'Stop' : 'Start' }</button>
 			</div>
-
-			<Scoreboard scoreMap={ scoreMap } scoreboardStatus={ scoreboardStatus } setScoreboardStatus={ setScoreboardStatus } />
 		</div>
 	);
 };
