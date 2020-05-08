@@ -1,0 +1,25 @@
+.tlg-app {
+	&__cycle-history-item-container {
+		display: flex;
+		flex-flow: row wrap;
+		width: 100%;
+		font-size: 1.3rem;
+		max-height: 450px;
+		overflow-y: scroll;
+	}
+
+	&__cycle-history-item {
+		width: 10%;
+		text-align: center;
+		margin: 15px 0;
+	}
+
+	&__cycle-history-meta {
+		flex-flow: row wrap;
+	}
+
+	&__cycle-history-meta-item {
+		width: 100%;
+		line-height: 2;
+	}
+}

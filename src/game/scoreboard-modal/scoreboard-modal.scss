@@ -1,13 +1,6 @@
 .tlg-app {
 	&__scoreboard-button {
-		position: fixed;
-		top: 30px;
-		right: 30px;
 		cursor: pointer;
-
-		&:hover {
-			text-decoration: underline;
-		}
 	}
 
 	&__scoreboard {
