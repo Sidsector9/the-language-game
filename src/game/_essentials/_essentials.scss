@@ -1,4 +1,5 @@
-$family-sans-serif: 'Times new roman';
+$ff-serif: 'Times new roman';
+$ff-sans-serif: sans-serif;
 
 @import "../../../node_modules/bulma/sass/utilities/_all.sass";
 @import "../../../node_modules/bulma/sass/base/_all.sass";
@@ -8,3 +9,8 @@ $family-sans-serif: 'Times new roman';
 @import "../../../node_modules/bulma/sass/grid/_all.sass";
 @import "../../../node_modules/bulma/sass/layout/_all.sass";
 
+html,
+body {
+	margin: 0;
+	padding: 0;
+}

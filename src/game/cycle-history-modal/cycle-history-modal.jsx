@@ -6,7 +6,7 @@ import React, { useContext } from 'react';
 /**
  * Internal dependencies
  */
-import { ControlBarContext } from '../the-language-game.jsx';
+import { InfoBarContext } from '../the-language-game.jsx';
 import './cycle-history-modal.scss';
 import { syllables } from '../syllables.jsx';
 
@@ -16,7 +16,7 @@ export const CycleHistoryModal = () => {
 		cycleHistory,
 		modalStatuses,
 		modalSetters,
-	} = useContext( ControlBarContext );
+	} = useContext( InfoBarContext );
 
 	return (
 		modalStatuses.cycleHistoryModalStatus && <div className="tlg-app__modal-container">

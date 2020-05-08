@@ -1,0 +1,30 @@
+.tlg-app__info-bar {
+	display: flex;
+	background-color: #000;
+
+	&-item {
+		flex-basis: 0;
+		flex-grow: 1;
+		text-align: center;
+		padding: 0.5em 0;
+		font-family: $ff-sans-serif;
+		color: #fff;
+		cursor: pointer;
+
+		&--scoreboard {
+			background-color: rgba(231, 76, 60, 1.0);
+
+			&:hover {
+				background-color: rgba(231, 76, 60, 0.95);
+			}
+		}
+
+		&--cycle-history {
+			background-color: rgba(230, 126, 34, 1.0);
+
+			&:hover {
+				background-color: rgba(230, 126, 34, 0.95);
+			}
+		}
+	}
+}

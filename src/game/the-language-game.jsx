@@ -7,9 +7,9 @@ import ReactDOM from 'react-dom';
 /**
  * Internal dependencies
  */
-import { ScoreboardModal } from './scoreboard-modal/scoreboard-modal.jsx';
-import { CycleHistoryModal } from './cycle-history-modal/cycle-history-modal.jsx';
-import { ControlBar } from './controls/controls.jsx';
+import { InfoBar } from './info-bar/info-bar.jsx';
+import { SyllableViewport } from './syllable-viewport/syllable-viewport.jsx';
+import { ControlBar } from './control-bar/control-bar.jsx';
 import { syllables as hiragana } from './syllables.jsx';
 import './tlg.scss';
 
@@ -31,6 +31,8 @@ const shuffleArray = ( array ) => {
 	return newArray;
 };
 
+export const InfoBarContext = createContext();
+export const SyllableViewportContext = createContext();
 export const ControlBarContext = createContext();
 
 const TheLanguageGame = ( props ) => {
@@ -97,20 +99,7 @@ const TheLanguageGame = ( props ) => {
 	 */
 	const [ cycleHistoryModalStatus, setCycleHistoryModalStatus ] = useState( false );
 
-	const controlBarContextData = {
-		scoreMap,
-		gameStatus,
-		cycleHistory,
-		uniqueSyllablesCount: syllablesArray.length,
-		modalStatuses: {
-			scoreboardModalStatus,
-			cycleHistoryModalStatus,
-		},
-		modalSetters: {
-			setScoreboardModalStatus,
-			setCycleHistoryModalStatus,
-		}
-	}
+	const [ theme, setTheme ] = useState( 'light' ); 
 
 	/**
 	 * Toggles `gameStatus` boolean when start | stopped and
@@ -163,6 +152,33 @@ const TheLanguageGame = ( props ) => {
 		updateScoreMap( newScoreMap );
 	};
 
+	const infoBarContextData = {
+		scoreMap,
+		gameStatus,
+		cycleHistory,
+		uniqueSyllablesCount: syllablesArray.length,
+		modalStatuses: {
+			scoreboardModalStatus,
+			cycleHistoryModalStatus,
+		},
+		modalSetters: {
+			setScoreboardModalStatus,
+			setCycleHistoryModalStatus,
+		}
+	}
+
+	const syllableViewportContextData = {
+		markStatus,
+		currentSyllable: currentSyllable.syllable,
+	};
+
+	const controlBarContextData = {
+		speed,
+		gameStatus,
+		updateSpeed,
+		updateGameStatusWrapper,
+	};
+
 	useEffect( () => {
 		let intervalId;
 
@@ -208,18 +224,24 @@ const TheLanguageGame = ( props ) => {
 	}, [ i, isShuffled, gameStatus ] );
 
 	return (
-		<div role="button" tabIndex={ 0 } className="tlg-app" ref={ appContainer } onKeyDown={ updateMarkStatusWrapper }>
-			<ControlBarContext.Provider value={ controlBarContextData }>
-				<ControlBar />
-				<ScoreboardModal />
-				<CycleHistoryModal />
-			</ControlBarContext.Provider>
-			<div className="tlg-app__container">
-				<div className={ `tlg-app__syllable ${ markStatus ? 'has-text-primary' : '' }` }>{ currentSyllable.syllable }</div>
-				{ ! gameStatus && <input placeholder="Speed (in seconds)" className="input is-primary" id="tlg-speed-input" type="number" value={ speed } onChange={ ( e ) => updateSpeed( Number( e.target.value ) < 1 && '' !== e.target.value ? 1 : e.target.value ) } /> }
-				<button className="tlg-app__play-button button is-primary is-medium" disabled={ ! speed } onClick={ updateGameStatusWrapper }>{ gameStatus ? 'Stop' : 'Start' }</button>
+		<>
+			<div role="button" tabIndex={ 0 } className={ `tlg-app tlg-app--${ theme }` } ref={ appContainer } onKeyDown={ updateMarkStatusWrapper }>
+				<h1 className="tlg-app__title">The<br />Language<br />Game</h1>
+				<div className="tlg-app__container">
+					<InfoBarContext.Provider value={ infoBarContextData }>
+						<InfoBar />
+					</InfoBarContext.Provider>
+
+					<SyllableViewportContext.Provider value={ syllableViewportContextData }>
+						<SyllableViewport />
+					</SyllableViewportContext.Provider>
+
+					<ControlBarContext.Provider value={ controlBarContextData }>
+						<ControlBar />
+					</ControlBarContext.Provider>
+				</div>
 			</div>
-		</div>
+		</>
 	);
 };
 
