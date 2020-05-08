@@ -6,7 +6,7 @@ export const TimerBar = ( { duration } ) => {
 
 	return (
 		<div className="tlg-app__progress-bar">
-			<span class="tlg-app__progress-bar-container">
+			<span className="tlg-app__progress-bar-container">
 				<span className="tlg-app__progress-bar-entity" style={ {
 					animationDuration: `${ duration }s`,
 				} }></span>
