@@ -107,6 +107,10 @@ const TheLanguageGame = ( props ) => {
 	 * then focuses on the container app.
 	 */
 	const updateGameStatusWrapper = () => {
+		if ( ! speed ) {
+			return;
+		}
+
 		updateGameStatus( ! gameStatus );
 		appContainer.current.focus();
 	};
