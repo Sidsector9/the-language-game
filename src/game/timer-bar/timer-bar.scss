@@ -1,0 +1,24 @@
+.meter { 
+    height: 20px;
+    position: relative;
+    background: grey;  
+}
+
+.meter span {
+    display: block;
+    height: 100%;
+}
+
+
+.progress {
+    background-color: rgba(231, 76, 60, 1.0);
+    -webkit-animation: progressBar 10s linear;
+    -webkit-animation-fill-mode: backwards;
+    -webkit-animation-direction: reverse;
+    -webkit-animation-iteration-count: infinite; 
+}
+
+@-webkit-keyframes progressBar {
+  0% { width: 0; }
+  100% { width: 100%; }
+}

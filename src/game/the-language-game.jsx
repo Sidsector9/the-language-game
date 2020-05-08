@@ -9,6 +9,7 @@ import ReactDOM from 'react-dom';
  */
 import { InfoBar } from './info-bar/info-bar.jsx';
 import { SyllableViewport } from './syllable-viewport/syllable-viewport.jsx';
+import { TimerBar } from './timer-bar/timer-bar.jsx';
 import { ControlBar } from './control-bar/control-bar.jsx';
 import { syllables as hiragana } from './syllables.jsx';
 import './tlg.scss';
@@ -34,6 +35,7 @@ const shuffleArray = ( array ) => {
 export const InfoBarContext = createContext();
 export const SyllableViewportContext = createContext();
 export const ControlBarContext = createContext();
+export const TimerBarContext = createContext();
 
 const TheLanguageGame = ( props ) => {
 	let i = 0;
@@ -224,7 +226,7 @@ const TheLanguageGame = ( props ) => {
 	}, [ i, isShuffled, gameStatus ] );
 
 	return (
-		<>
+		<>y
 			<div role="button" tabIndex={ 0 } className={ `tlg-app tlg-app--${ theme }` } ref={ appContainer } onKeyDown={ updateMarkStatusWrapper }>
 				<h1 className="tlg-app__title">The<br />Language<br />Game</h1>
 				<div className="tlg-app__container">
@@ -235,7 +237,11 @@ const TheLanguageGame = ( props ) => {
 					<SyllableViewportContext.Provider value={ syllableViewportContextData }>
 						<SyllableViewport />
 					</SyllableViewportContext.Provider>
-
+					
+					<TimerBarContext.Provider>
+						<TimerBar />
+					</TimerBarContext.Provider>
+					
 					<ControlBarContext.Provider value={ controlBarContextData }>
 						<ControlBar />
 					</ControlBarContext.Provider>
