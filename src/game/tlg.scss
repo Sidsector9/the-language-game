@@ -1,8 +1,8 @@
 .tlg-app__title {
 	position: fixed;
-	top: 3rem;
+	top: 2.5rem;
 	text-align: right;
-	margin-top: 4rem;
+	margin-top: 2rem;
 	text-transform: uppercase;
 	font-size: 2rem;
 	font-weight: bold;
@@ -46,6 +46,8 @@
 	font-family: $ff-serif;
 
 	&__container {
+		position: absolute;
+		top: 280px;
 		align-self: center;
 	}
 
