@@ -6,7 +6,7 @@ import React, { useContext } from 'react';
 /**
  * Internal dependencies
  */
-import { ControlBarContext } from '../the-language-game.jsx';
+import { InfoBarContext } from '../the-language-game.jsx';
 import './scoreboard-modal.scss';
 
 export const ScoreboardModal = () => {
@@ -16,7 +16,7 @@ export const ScoreboardModal = () => {
 		setScoreboardModalStatus,
 		modalStatuses,
 		modalSetters,
-	} = useContext( ControlBarContext );
+	} = useContext( InfoBarContext );
 
 	return (
 		modalStatuses.scoreboardModalStatus && <div className="tlg-app__modal-container">

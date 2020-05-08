@@ -1,0 +1,21 @@
+.tlg-app__control-bar {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+
+	&__buttons {
+		svg {
+			margin-left: 1.3em;
+			cursor: pointer;
+		}
+	}
+}
+
+.tlg-app--light {
+	.tlg-app {
+		&__control-bar {
+			border-top: 1px solid #e5e5e5;
+			padding: 1em 1em;
+		}
+	}
+}
