@@ -9,6 +9,7 @@ import ReactDOM from 'react-dom';
  */
 import { InfoBar } from './info-bar/info-bar.jsx';
 import { SyllableViewport } from './syllable-viewport/syllable-viewport.jsx';
+import { TimerBar } from './timer-bar/timer-bar.jsx';
 import { ControlBar } from './control-bar/control-bar.jsx';
 import { syllables as hiragana } from './syllables.jsx';
 import './tlg.scss';
@@ -236,6 +237,10 @@ const TheLanguageGame = ( props ) => {
 						<SyllableViewport />
 					</SyllableViewportContext.Provider>
 
+					<div className="tlg-app__timer-bar-wrapper">
+						{ gameStatus && <TimerBar duration={ speed } /> }
+					</div>
+					
 					<ControlBarContext.Provider value={ controlBarContextData }>
 						<ControlBar />
 					</ControlBarContext.Provider>
