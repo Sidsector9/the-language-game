@@ -1,3 +1,4 @@
+![Node.js CI](https://github.com/Sidsector9/the-language-game/workflows/Node.js%20CI/badge.svg)
 # The Language Game
 A client-side game to practice Japanese Hiragana syllables.
 
