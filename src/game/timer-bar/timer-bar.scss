@@ -2,7 +2,7 @@
 	&__progress-bar {
 		height: 10px;
 		position: relative;
-		background: #2c3e50; 
+		background: #2c3e50;
 	}
 
 	&__progress-bar-container {
@@ -17,10 +17,10 @@
 
 .tlg-app__progress-bar-entity {
 	display: block;
-    background-color: #27ae60;
-    animation: progress-bar 5s linear;
-    animation-fill-mode: backwards;
-    animation-direction: reverse;
+	background-color: #27ae60;
+	animation: progress-bar 5s linear;
+	animation-fill-mode: backwards;
+	animation-direction: reverse;
 	animation-iteration-count: infinite;
 	height: 100%;
 }
@@ -29,6 +29,7 @@
 	0% {
 		width: 0;
 	}
+
 	100% {
 		width: 100%;
 	}
