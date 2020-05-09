@@ -37,6 +37,11 @@ export const InfoBarContext = createContext();
 export const SyllableViewportContext = createContext();
 export const ControlBarContext = createContext();
 
+/**
+ * The main component that renders the game.
+ *
+ * @param {Object} props The props forr TheLanguageGame component.
+ */
 const TheLanguageGame = ( props ) => {
 	let i = 0;
 	const isShuffled = false;
