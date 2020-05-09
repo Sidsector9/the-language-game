@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import './timer-bar.scss';
 
@@ -20,4 +21,8 @@ export const TimerBar = ( props ) => {
 			</span>
 		</div>
 	);
+};
+
+TimerBar.propTypes = {
+	duration: PropTypes.string,
 };

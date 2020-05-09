@@ -2,6 +2,7 @@
  * External dependencies
  */
 import React, { useState, useEffect, useRef, createContext } from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 
 /**
@@ -36,6 +37,11 @@ export const InfoBarContext = createContext();
 export const SyllableViewportContext = createContext();
 export const ControlBarContext = createContext();
 
+/**
+ * The main component that renders the game.
+ *
+ * @param {Object} props The props forr TheLanguageGame component.
+ */
 const TheLanguageGame = ( props ) => {
 	let i = 0;
 	const isShuffled = false;
@@ -125,6 +131,10 @@ const TheLanguageGame = ( props ) => {
 		appContainer.current.focus();
 	};
 
+	/**
+	 * Generates a hash to record score for every marked
+	 * syllable in the viewport.
+	 */
 	function generateScoreMapping() {
 		const scoreMapHash = {};
 
@@ -264,8 +274,15 @@ const TheLanguageGame = ( props ) => {
 	);
 };
 
+/**
+ * Wrapper Component to render TheLanguageGame app.
+ */
 const TheLanguageGameApp = () => {
 	return <TheLanguageGame syllables={ hiragana } />;
+};
+
+TheLanguageGame.propTypes = {
+	syllables: PropTypes.array,
 };
 
 ReactDOM.render( <TheLanguageGameApp />, document.getElementById( 'the-language-game-app' ) );
