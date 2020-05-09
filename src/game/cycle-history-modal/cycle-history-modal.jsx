@@ -8,8 +8,13 @@ import React, { useContext } from 'react';
  */
 import { InfoBarContext } from '../the-language-game.jsx';
 import './cycle-history-modal.scss';
-import { syllables } from '../syllables.jsx';
 
+/**
+ * Renders a screen which displays the history of all the syllables
+ * iterated by the viewport.
+ *
+ * Also gives additional information in the footer.
+ */
 export const CycleHistoryModal = () => {
 	const {
 		uniqueSyllablesCount,
@@ -20,7 +25,7 @@ export const CycleHistoryModal = () => {
 
 	return (
 		modalStatuses.cycleHistoryModalStatus && <div className="tlg-app__modal-container">
-			<div className={ `tlg-app__cycle-history-modal modal is-active` }>
+			<div className="tlg-app__cycle-history-modal modal is-active">
 				<div tabIndex={ 0 } role="button" className="modal-background" onClick={ () => modalSetters.setCycleHistoryModalStatus( false ) }></div>
 				<div className="modal-card">
 					<header className="modal-card-head">
@@ -29,12 +34,10 @@ export const CycleHistoryModal = () => {
 					</header>
 					<section className="modal-card-body">
 						<div className="tlg-app__cycle-history-item-container">
-						{ cycleHistory.map( ( syllableObject, index ) => (
-							<div key={ index } className="tlg-app__cycle-history-item">
-								<div className="tlg-app__cycle-history-item-syllable">{ syllableObject.syllable }</div>
-								<div className="tlg-app__cycle-history-item-translation">{ syllableObject.translation }</div>
-							</div>
-						) ) }
+							{ cycleHistory.map( ( syllableObject, index ) => <div key={ index } className="tlg-app__cycle-history-item">
+									<div className="tlg-app__cycle-history-item-syllable">{ syllableObject.syllable }</div>
+									<div className="tlg-app__cycle-history-item-translation">{ syllableObject.translation }</div>
+								</div> ) }
 						</div>
 					</section>
 					<footer className="modal-card-foot tlg-app__cycle-history-meta">
