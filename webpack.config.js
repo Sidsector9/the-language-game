@@ -2,6 +2,7 @@ const path = require( 'path' );
 const HtmlWebpackPlugin = require( 'html-webpack-plugin' );
 const MiniCssExtractPlugin = require( 'mini-css-extract-plugin' );
 const OptimizeCssAssetsPlugin = require( 'optimize-css-assets-webpack-plugin' );
+const TerserPlugin = require( 'terser-webpack-plugin' );
 const { CleanWebpackPlugin } = require( 'clean-webpack-plugin' );
 
 module.exports = {
@@ -17,7 +18,7 @@ module.exports = {
 			{
 				test: /\.js|.jsx$/,
 				exclude: /node_modules/,
-				loader: "babel-loader"
+				loader: 'babel-loader'
 			},
 			{
 				test: /\.s[ac]ss$/i,
@@ -25,6 +26,7 @@ module.exports = {
 					MiniCssExtractPlugin.loader,
 					'css-loader',
 					'resolve-url-loader',
+					'postcss-loader',
 					'sass-loader',
 					{
 						loader: 'sass-resources-loader',
@@ -49,5 +51,14 @@ module.exports = {
 	],
 	devServer: {
 		open: true,
-	}
+	},
+	optimization: {
+		minimize: true,
+		minimizer: [
+			new TerserPlugin( {
+				test: /\.js|.jsx$/,
+				exclude: /\/node_modules/
+			} )
+		],
+	},
 };

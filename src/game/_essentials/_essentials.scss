@@ -1,13 +1,30 @@
 $ff-serif: 'Times new roman';
 $ff-sans-serif: sans-serif;
 
-@import "../../../node_modules/bulma/sass/utilities/_all.sass";
+/**
+* Utilities
+*/
+@import "../../../node_modules/bulma/sass/utilities/initial-variables.sass";
+@import "../../../node_modules/bulma/sass/utilities/functions.sass";
+@import "../../../node_modules/bulma/sass/utilities/derived-variables.sass";
+@import "../../../node_modules/bulma/sass/utilities/mixins.sass";
+@import "../../../node_modules/bulma/sass/utilities/controls.sass";
+
+/**
+* Base
+*/
 @import "../../../node_modules/bulma/sass/base/_all.sass";
-@import "../../../node_modules/bulma/sass/elements/_all.sass";
-@import "../../../node_modules/bulma/sass/form/_all.sass";
+
+/**
+ * Form
+ */
+@import "../../../node_modules/bulma/sass/form/shared.sass";
+@import "../../../node_modules/bulma/sass/form/input-textarea.sass";
+
+/**
+ * Components
+ */
 @import "../../../node_modules/bulma/sass/components/_all.sass";
-@import "../../../node_modules/bulma/sass/grid/_all.sass";
-@import "../../../node_modules/bulma/sass/layout/_all.sass";
 
 html,
 body {

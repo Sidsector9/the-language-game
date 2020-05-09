@@ -1,8 +1,8 @@
-/* global module */
 module.exports = {
     'env': {
         'browser': true,
 		'es6': true,
+		'node': true,
     },
 	'settings': {
 		'react': {
@@ -291,7 +291,7 @@ module.exports = {
 				}
 			}
 		],
-        'require-unicode-regexp': 'error',
+        'require-unicode-regexp': 'off',
         'rest-spread-spacing': [
             'error',
             'never'
