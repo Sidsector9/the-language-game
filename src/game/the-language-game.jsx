@@ -40,6 +40,9 @@ const TheLanguageGame = ( props ) => {
 	let i = 0;
 	const isShuffled = false;
 
+	/**
+	 * Ref for app container with class `.tlg-app`
+	 */
 	const appContainer = useRef();
 
 	/**
@@ -88,6 +91,9 @@ const TheLanguageGame = ( props ) => {
 	 */
 	const [ scoreMap, updateScoreMap ] = useState( generateScoreMapping() );
 
+	/**
+	 * Array of syllable objects that were shown in the viewport.
+	 */
 	const [ cycleHistory, updateCycleHistory ] = useState( [] );
 
 	/**
@@ -100,7 +106,11 @@ const TheLanguageGame = ( props ) => {
 	 */
 	const [ cycleHistoryModalStatus, setCycleHistoryModalStatus ] = useState( false );
 
-	const [ theme, setTheme ] = useState( 'light' ); 
+	/**
+	 * Theme of the app.
+	 * Defaults to `light`.
+	 */
+	const [ theme, setTheme ] = useState( 'light' );
 
 	/**
 	 * Toggles `gameStatus` boolean when start | stopped and
@@ -169,8 +179,8 @@ const TheLanguageGame = ( props ) => {
 		modalSetters: {
 			setScoreboardModalStatus,
 			setCycleHistoryModalStatus,
-		}
-	}
+		},
+	};
 
 	const syllableViewportContextData = {
 		markStatus,
@@ -192,7 +202,7 @@ const TheLanguageGame = ( props ) => {
 			 * Without this line the game would start after `speed` seconds.
 			 */
 			updateCurrentSyllable( syllablesArray[ i ] );
-			cycleHistory.push( syllablesArray[ i ] )
+			cycleHistory.push( syllablesArray[ i ] );
 			updateCycleHistory( cycleHistory );
 			i++;
 
@@ -244,7 +254,7 @@ const TheLanguageGame = ( props ) => {
 					<div className="tlg-app__timer-bar-wrapper">
 						{ gameStatus && <TimerBar duration={ speed } /> }
 					</div>
-					
+
 					<ControlBarContext.Provider value={ controlBarContextData }>
 						<ControlBar />
 					</ControlBarContext.Provider>

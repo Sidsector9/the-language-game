@@ -9,10 +9,13 @@ import React, { useContext } from 'react';
 import { InfoBarContext } from '../the-language-game.jsx';
 import './scoreboard-modal.scss';
 
+/**
+ * Renders a screen which displays the score for each syllable that were marked
+ * during the game.
+ */
 export const ScoreboardModal = () => {
 	const {
 		scoreMap,
-		scoreboardModalStatus,
 		setScoreboardModalStatus,
 		modalStatuses,
 		modalSetters,

@@ -1,16 +1,30 @@
+/* global location */
+
+/**
+ * External dependencies
+ */
 import React, { useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay, faPause, faRedoAlt } from '@fortawesome/free-solid-svg-icons'
 
+/**
+ * Internal dependencies
+ */
 import { ControlBarContext } from '../the-language-game.jsx';
 import './control-bar.scss';
 
+/**
+ * Renders controls to play/pause and restart the game.
+ */
 export const ControlBar = () => {
 	const { speed, gameStatus, updateSpeed, updateGameStatusWrapper } = useContext( ControlBarContext );
 
+	/**
+	 * Fires when the restart button is clicked and restarts the game.
+	 */
 	const restartGame = () => {
 		location.reload();
-	}
+	};
 
 	return (
 		<div className="tlg-app__control-bar">
