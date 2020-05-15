@@ -41,7 +41,8 @@
 	},
 	"scripts": {
 		"dev": "webpack-dev-server",
-		"prod": "webpack --mode=production"
+		"prod": "webpack --mode=production",
+		"eslint": "npx eslint ./src/* --ext .jsx"
 	},
 	"browserslist": [
 		"defaults",

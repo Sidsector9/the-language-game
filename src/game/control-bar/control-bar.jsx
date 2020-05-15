@@ -4,7 +4,7 @@
 import React, { useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faPause, faRedoAlt } from '@fortawesome/free-solid-svg-icons';
-import ReactTooltip from "react-tooltip";
+import ReactTooltip from 'react-tooltip';
 
 /**
  * Internal dependencies
@@ -35,8 +35,8 @@ export const ControlBar = () => {
 				<FontAwesomeIcon style={ {
 					color: ! speed ? '#bdc3c7' : '#2c3e50',
 					cursor: ! speed ? 'not-allowed' : 'pointer',
-				} } icon={ gameStatus ? faPause : faPlay } data-tip={ gameStatus ? "Pause": "Play" } onClick={ updateGameStatusWrapper } />
-				<FontAwesomeIcon style={ { color: '#2c3e50' } } icon={ faRedoAlt } data-tip="Reset cycle"  onClick={ restartGame } />
+				} } icon={ gameStatus ? faPause : faPlay } data-tip={ gameStatus ? 'Pause' : 'Play' } onClick={ updateGameStatusWrapper } />
+				<FontAwesomeIcon style={ { color: '#2c3e50' } } icon={ faRedoAlt } data-tip= "Reset cycle" onClick={ restartGame } />
 					<ReactTooltip />
 			</div>
 		</div>
