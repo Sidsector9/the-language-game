@@ -4,7 +4,6 @@
 import React, { useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlay, faPause, faRedoAlt } from '@fortawesome/free-solid-svg-icons';
-import ReactTooltip from 'react-tooltip';
 
 /**
  * Internal dependencies
@@ -27,17 +26,23 @@ export const ControlBar = () => {
 
 	return (
 		<div className="tlg-app__control-bar">
-			<div className="control is-expanded">
+			<div className="control__is-expanded">
 				<input placeholder="Speed (in seconds)" disabled={ gameStatus } className="input" id="tlg-app__speed-input" type="number" value={ speed } onChange={ ( e ) => updateSpeed( Number( e.target.value ) < 1 && e.target.value !== '' ? 1 : e.target.value ) } />
+				<span className="tlg-app__control-bar__tooltip-speed">Speed (in seconds)</span>
 			</div>
 
 			<div className="tlg-app__control-bar__buttons">
-				<FontAwesomeIcon style={ {
-					color: ! speed ? '#bdc3c7' : '#2c3e50',
-					cursor: ! speed ? 'not-allowed' : 'pointer',
-				} } icon={ gameStatus ? faPause : faPlay } data-tip={ gameStatus ? 'Pause' : 'Play' } onClick={ updateGameStatusWrapper } />
-				<FontAwesomeIcon style={ { color: '#2c3e50' } } icon={ faRedoAlt } data-tip= "Reset cycle" onClick={ restartGame } />
-					<ReactTooltip />
+				<div className="tlg-app__control-bar__controls" >
+					<FontAwesomeIcon style={ {
+						color: ! speed ? '#bdc3c7' : '#2c3e50',
+						cursor: ! speed ? 'not-allowed' : 'pointer',
+					} } icon={ gameStatus ? faPause : faPlay } onClick={ updateGameStatusWrapper } />
+					<span className="tlg-app__control-bar__tooltip-play">{ gameStatus ? 'Pause' : 'Play' }</span>
+				</div>
+				<div className="tlg-app__control-bar__reset" >
+					<FontAwesomeIcon style={ { color: '#2c3e50' } } icon={ faRedoAlt } onClick={ restartGame } />
+					<span className="tlg-app__control-bar__tooltip-reset">Reset cycle</span>
+				</div>
 			</div>
 		</div>
 	);
