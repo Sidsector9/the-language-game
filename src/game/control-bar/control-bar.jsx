@@ -26,16 +26,20 @@ export const ControlBar = () => {
 
 	return (
 		<div className="tlg-app__control-bar">
-			<div className="control is-expanded">
-				<input placeholder="Speed (in seconds)" disabled={ gameStatus } className="input" id="tlg-app__speed-input" type="number" value={ speed } onChange={ ( e ) => updateSpeed( Number( e.target.value ) < 1 && e.target.value !== '' ? 1 : e.target.value ) } />
+			<div className="tlg-app__speed-control is-expanded">
+				<input placeholder="Speed (in seconds)" disabled={ gameStatus } className="input tlg-app__speed-input" type="number" value={ speed } onChange={ ( e ) => updateSpeed( Number( e.target.value ) < 1 && e.target.value !== '' ? 1 : e.target.value ) } />
 			</div>
 
 			<div className="tlg-app__control-bar__buttons">
-				<FontAwesomeIcon style={ {
-					color: ! speed ? '#bdc3c7' : '#2c3e50',
-					cursor: ! speed ? 'not-allowed' : 'pointer',
-				} } icon={ gameStatus ? faPause : faPlay } onClick={ updateGameStatusWrapper } />
-				<FontAwesomeIcon style={ { color: '#2c3e50' } } icon={ faRedoAlt } onClick={ restartGame } />
+				<div className={ `tlg-app__control-bar-button tlg-app__control-bar-button--${ gameStatus ? 'pause' : 'play' }` }>
+					<FontAwesomeIcon style={ {
+						color: ! speed ? '#bdc3c7' : '#2c3e50',
+						cursor: ! speed ? 'not-allowed' : 'pointer',
+					} } icon={ gameStatus ? faPause : faPlay } onClick={ updateGameStatusWrapper } />
+				</div>
+				<div className="tlg-app__control-bar-button tlg-app__control-bar-button--reload">
+					<FontAwesomeIcon style={ { color: '#2c3e50' } } icon={ faRedoAlt } onClick={ restartGame } />
+				</div>
 			</div>
 		</div>
 	);

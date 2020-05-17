@@ -31,3 +31,33 @@ body {
 	margin: 0;
 	padding: 0;
 }
+
+@mixin tooltip {
+	&::before {
+		display: block;
+		content: '';
+		position: absolute;
+		top: -26px;
+		left: 50%;
+		transform: translate(-50%, 0) rotate(45deg);
+		width: 15px;
+		height: 15px;
+		background-color: #2c3e50;
+		z-index: 1;
+	}
+
+	&::after {
+		display: block;
+		position: absolute;
+		top: -50px;
+		left: 50%;
+		transform: translate(-50%, 0);
+		width: fit-content;
+		background-color: #2c3e50;
+		color: #fff;
+		font-family: $ff-sans-serif;
+		z-index: 2;
+		padding: 4px 8px;
+		border-radius: 3px;
+	}
+}
