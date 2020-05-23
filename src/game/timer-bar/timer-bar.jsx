@@ -24,5 +24,5 @@ export const TimerBar = ( props ) => {
 };
 
 TimerBar.propTypes = {
-	duration: PropTypes.string,
+	duration: PropTypes.number,
 };
