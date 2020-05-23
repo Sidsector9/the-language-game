@@ -37,8 +37,6 @@ export const InfoBarContext = createContext();
 export const SyllableViewportContext = createContext();
 export const ControlBarContext = createContext();
 
-// let syllablesArray;
-
 /**
  * The main component that renders the game.
  *
