@@ -251,16 +251,23 @@ const TheLanguageGame = ( props ) => {
 	const [ cycleCounter, setCycleCounter ] = useState( 0 );
 
 	useEffect( () => {
-		const intervalId = setInterval( () => {
-			if ( 5 === cycleCounter ) {
-				setCycleCounter( 0 );
-			} else {
-				setCycleCounter( cycleCounter + 1 );
-			}
-		}, 1000 );
+		let intervalId;
+
+		if ( ! gameStatus ) {
+			clearInterval( intervalId );
+		} else {
+			intervalId = setInterval( () => {
+				if ( 5 === cycleCounter ) {
+					setCycleCounter( 0 );
+				} else {
+					setCycleCounter( cycleCounter + 1 );
+				}
+			}, 1000 );
+		}
+
 
 		return () => clearInterval( intervalId );
-	}, [ cycleCounter ] );
+	}, [ cycleCounter, gameStatus ] );
 
 	return (
 		<>
