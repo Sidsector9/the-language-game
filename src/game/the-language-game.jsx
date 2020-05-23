@@ -204,56 +204,70 @@ const TheLanguageGame = ( props ) => {
 		updateGameStatusWrapper,
 	};
 
+	// useEffect( () => {
+	// 	let intervalId;
+
+	// 	if ( gameStatus ) {
+	// 		/**
+	// 		 * Without this line the game would start after `speed` seconds.
+	// 		 */
+	// 		updateCurrentSyllable( syllablesArray[ i ] );
+	// 		cycleHistory.push( syllablesArray[ i ] );
+	// 		updateCycleHistory( cycleHistory );
+	// 		i++;
+
+	// 		/**
+	// 		 * Executes a callback every `speed` seconds.
+	// 		 */
+	// 		intervalId = setInterval( () => {
+	// 			/**
+	// 			 * Reset `i` = 0 when it has iterated over the array then reshuffle.
+	// 			 */
+	// 			if ( syllablesArray.length === i ) {
+	// 				i = 0;
+	// 				syllablesArray = shuffleArray( syllables );
+	// 			}
+
+	// 			/**
+	// 			 * Updates the value of the current syllable in the viewport.
+	// 			 */
+	// 			updateCurrentSyllable( syllablesArray[ i ] );
+	// 			cycleHistory.push( syllablesArray[ i ] );
+	// 			updateCycleHistory( cycleHistory );
+	// 			i++;
+
+	// 			/**
+	// 			 * Removes the mark for the next syllable.
+	// 			 */
+	// 			updateMarkStatus( false );
+	// 		}, speed * 1000 );
+	// 	} else {
+	// 		clearInterval( intervalId );
+	// 	}
+
+	// 	return () => clearInterval( intervalId );
+	// }, [ i, isShuffled, gameStatus ] );
+
+	const [ cycleCounter, setCycleCounter ] = useState( 0 );
+
 	useEffect( () => {
-		let intervalId;
-
-		if ( gameStatus ) {
-			/**
-			 * Without this line the game would start after `speed` seconds.
-			 */
-			updateCurrentSyllable( syllablesArray[ i ] );
-			cycleHistory.push( syllablesArray[ i ] );
-			updateCycleHistory( cycleHistory );
-			i++;
-
-			/**
-			 * Executes a callback every `speed` seconds.
-			 */
-			intervalId = setInterval( () => {
-				/**
-				 * Reset `i` = 0 when it has iterated over the array then reshuffle.
-				 */
-				if ( syllablesArray.length === i ) {
-					i = 0;
-					syllablesArray = shuffleArray( syllables );
-				}
-
-				/**
-				 * Updates the value of the current syllable in the viewport.
-				 */
-				updateCurrentSyllable( syllablesArray[ i ] );
-				cycleHistory.push( syllablesArray[ i ] );
-				updateCycleHistory( cycleHistory );
-				i++;
-
-				/**
-				 * Removes the mark for the next syllable.
-				 */
-				updateMarkStatus( false );
-			}, speed * 1000 );
-		} else {
-			clearInterval( intervalId );
-		}
+		const intervalId = setInterval( () => {
+			if ( 5 === cycleCounter ) {
+				setCycleCounter( 0 );
+			} else {
+				setCycleCounter( cycleCounter + 1 );
+			}
+		}, 1000 );
 
 		return () => clearInterval( intervalId );
-	}, [ i, isShuffled, gameStatus ] );
+	}, [ cycleCounter ] );
 
 	return (
 		<>
 			<div role="button" tabIndex={ 0 } className={ `tlg-app tlg-app--${ theme }` } ref={ appContainer } onKeyDown={ updateMarkStatusWrapper }>
 				<h1 className="tlg-app__title">The<br />Language<br />Game</h1>
 				<div className="tlg-app__container">
-					<InfoBarContext.Provider value={ infoBarContextData }>
+					{/* <InfoBarContext.Provider value={ infoBarContextData }>
 						<InfoBar />
 					</InfoBarContext.Provider>
 
@@ -263,11 +277,14 @@ const TheLanguageGame = ( props ) => {
 
 					<div className="tlg-app__timer-bar-wrapper">
 						{ gameStatus && <TimerBar duration={ speed } /> }
-					</div>
+					</div> */}
+
+					<h1>{ cycleCounter }</h1>
 
 					<ControlBarContext.Provider value={ controlBarContextData }>
 						<ControlBar />
 					</ControlBarContext.Provider>
+
 				</div>
 			</div>
 		</>
