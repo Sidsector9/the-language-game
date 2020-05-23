@@ -37,14 +37,19 @@ export const InfoBarContext = createContext();
 export const SyllableViewportContext = createContext();
 export const ControlBarContext = createContext();
 
+// let syllablesArray;
+
 /**
  * The main component that renders the game.
  *
  * @param {Object} props The props forr TheLanguageGame component.
  */
 const TheLanguageGame = ( props ) => {
-	let i = 0;
-	const isShuffled = false;
+
+	/**
+	 * Holds the syllables array. Don't want it to mutate on every render.
+	 */
+	const syllablesArray = useRef();
 
 	/**
 	 * Ref for app container with class `.tlg-app`
@@ -57,19 +62,12 @@ const TheLanguageGame = ( props ) => {
 	const { syllables } = props;
 
 	/**
-	 * Shuffle the syllable array.
-	 */
-	let syllablesArray;
-
-	/**
 	 * useEffect will run every time when a component is updated and we
 	 * don't want the syllable to shuffle on every render.
 	 *
 	 * This will shuffle once all syllables are iterated in the array.
 	 */
-	if ( ! isShuffled ) {
-		syllablesArray = shuffleArray( syllables );
-	}
+	const [ isShuffled, setIsShuffled ] = useState( false );
 
 	/**
 	 * The current syllable visible in the viewport and the function to update it.
@@ -113,10 +111,29 @@ const TheLanguageGame = ( props ) => {
 	const [ cycleHistoryModalStatus, setCycleHistoryModalStatus ] = useState( false );
 
 	/**
+	 * Temporarily saves the game status.
+	 * Required to start setInterval at 00:00:00
+	 */
+	const [ gameStatusTransient, setGameStatusTransient ] = useState( false );
+
+	/**
+	 * Counter variable to iterate through the syllables.
+	 */
+	const [ cycleCounter, setCycleCounter ] = useState( 0 );
+
+	/**
 	 * Theme of the app.
 	 * Defaults to `light`.
 	 */
 	const [ theme, setTheme ] = useState( 'light' );
+
+	/**
+	 * Shuffle the syllable array.
+	 */
+	if ( ! isShuffled ) {
+		syllablesArray.current = shuffleArray( syllables );
+		setIsShuffled( true );
+	}
 
 	/**
 	 * Toggles `gameStatus` boolean when start | stopped and
@@ -128,6 +145,7 @@ const TheLanguageGame = ( props ) => {
 		}
 
 		updateGameStatus( ! gameStatus );
+		setGameStatusTransient( true );
 		appContainer.current.focus();
 	};
 
@@ -177,11 +195,14 @@ const TheLanguageGame = ( props ) => {
 		updateScoreMap( newScoreMap );
 	};
 
+	/**
+	 * Context for InfoBar Component.
+	 */
 	const infoBarContextData = {
 		scoreMap,
 		gameStatus,
 		cycleHistory,
-		uniqueSyllablesCount: syllablesArray.length,
+		uniqueSyllablesCount: syllablesArray.current.length,
 		modalStatuses: {
 			scoreboardModalStatus,
 			cycleHistoryModalStatus,
@@ -192,11 +213,17 @@ const TheLanguageGame = ( props ) => {
 		},
 	};
 
+	/**
+	 * Context for Viewport Component.
+	 */
 	const syllableViewportContextData = {
 		markStatus,
 		currentSyllable: currentSyllable.syllable,
 	};
 
+	/**
+	 * Context for ControlBar Component.
+	 */
 	const controlBarContextData = {
 		speed,
 		gameStatus,
@@ -204,77 +231,55 @@ const TheLanguageGame = ( props ) => {
 		updateGameStatusWrapper,
 	};
 
-	// useEffect( () => {
-	// 	let intervalId;
-
-	// 	if ( gameStatus ) {
-	// 		/**
-	// 		 * Without this line the game would start after `speed` seconds.
-	// 		 */
-	// 		updateCurrentSyllable( syllablesArray[ i ] );
-	// 		cycleHistory.push( syllablesArray[ i ] );
-	// 		updateCycleHistory( cycleHistory );
-	// 		i++;
-
-	// 		/**
-	// 		 * Executes a callback every `speed` seconds.
-	// 		 */
-	// 		intervalId = setInterval( () => {
-	// 			/**
-	// 			 * Reset `i` = 0 when it has iterated over the array then reshuffle.
-	// 			 */
-	// 			if ( syllablesArray.length === i ) {
-	// 				i = 0;
-	// 				syllablesArray = shuffleArray( syllables );
-	// 			}
-
-	// 			/**
-	// 			 * Updates the value of the current syllable in the viewport.
-	// 			 */
-	// 			updateCurrentSyllable( syllablesArray[ i ] );
-	// 			cycleHistory.push( syllablesArray[ i ] );
-	// 			updateCycleHistory( cycleHistory );
-	// 			i++;
-
-	// 			/**
-	// 			 * Removes the mark for the next syllable.
-	// 			 */
-	// 			updateMarkStatus( false );
-	// 		}, speed * 1000 );
-	// 	} else {
-	// 		clearInterval( intervalId );
-	// 	}
-
-	// 	return () => clearInterval( intervalId );
-	// }, [ i, isShuffled, gameStatus ] );
-
-	const [ cycleCounter, setCycleCounter ] = useState( 0 );
-
 	useEffect( () => {
 		let intervalId;
 
-		if ( ! gameStatus ) {
-			clearInterval( intervalId );
-		} else {
+		if ( gameStatus ) {
+
+			/**
+			 * The `if` block helps start the app at 00:00:00
+			 */
+			if ( gameStatusTransient ) {
+				updateCurrentSyllable( syllablesArray.current[ cycleCounter ] );
+				cycleHistory.push( syllablesArray.current[ cycleCounter ] );
+				updateCycleHistory( cycleHistory );
+				setCycleCounter( cycleCounter + 1 );
+				setGameStatusTransient( false );
+			}
+
 			intervalId = setInterval( () => {
-				if ( 5 === cycleCounter ) {
+				if ( syllablesArray.current.length === cycleCounter ) {
 					setCycleCounter( 0 );
+					setIsShuffled( false );
+					setGameStatusTransient( true );
 				} else {
+					/**
+					 * Updates the value of the current syllable in the viewport.
+					 */
+					updateCurrentSyllable( syllablesArray.current[ cycleCounter ] );
+					cycleHistory.push( syllablesArray.current[ cycleCounter ] );
+					updateCycleHistory( cycleHistory );
 					setCycleCounter( cycleCounter + 1 );
+
+					/**
+					 * Removes the mark for the next syllable.
+					 */
+					updateMarkStatus( false );
 				}
-			}, 1000 );
+			}, speed * 1000 );
+		} else {
+			clearInterval( intervalId );
 		}
 
-
 		return () => clearInterval( intervalId );
-	}, [ cycleCounter, gameStatus ] );
+	}, [ cycleCounter, gameStatus, gameStatusTransient ] );
 
 	return (
 		<>
 			<div role="button" tabIndex={ 0 } className={ `tlg-app tlg-app--${ theme }` } ref={ appContainer } onKeyDown={ updateMarkStatusWrapper }>
 				<h1 className="tlg-app__title">The<br />Language<br />Game</h1>
 				<div className="tlg-app__container">
-					{/* <InfoBarContext.Provider value={ infoBarContextData }>
+					<InfoBarContext.Provider value={ infoBarContextData }>
 						<InfoBar />
 					</InfoBarContext.Provider>
 
@@ -283,10 +288,8 @@ const TheLanguageGame = ( props ) => {
 					</SyllableViewportContext.Provider>
 
 					<div className="tlg-app__timer-bar-wrapper">
-						{ gameStatus && <TimerBar duration={ speed } /> }
-					</div> */}
-
-					<h1>{ cycleCounter }</h1>
+						{ gameStatus && <TimerBar duration={ Number( speed ) } /> }
+					</div>
 
 					<ControlBarContext.Provider value={ controlBarContextData }>
 						<ControlBar />
