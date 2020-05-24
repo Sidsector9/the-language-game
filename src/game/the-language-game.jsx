@@ -50,6 +50,11 @@ const TheLanguageGame = ( props ) => {
 	const syllablesArray = useRef();
 
 	/**
+	 * Holds the interval ID running inside useEffect.
+	 */
+	const intervalId = useRef();
+
+	/**
 	 * Ref for app container with class `.tlg-app`
 	 */
 	const appContainer = useRef();
@@ -230,8 +235,6 @@ const TheLanguageGame = ( props ) => {
 	};
 
 	useEffect( () => {
-		let intervalId;
-
 		if ( gameStatus ) {
 
 			/**
@@ -241,11 +244,17 @@ const TheLanguageGame = ( props ) => {
 				updateCurrentSyllable( syllablesArray.current[ cycleCounter ] );
 				cycleHistory.push( syllablesArray.current[ cycleCounter ] );
 				updateCycleHistory( cycleHistory );
-				setCycleCounter( cycleCounter + 1 );
+
+				if ( syllablesArray.current.length - 1 === cycleCounter ) {
+					setCycleCounter( 0 );
+				} else {
+					setCycleCounter( cycleCounter + 1 );
+				}
+
 				setGameStatusTransient( false );
 			}
 
-			intervalId = setInterval( () => {
+			intervalId.current = setInterval( () => {
 				if ( syllablesArray.current.length === cycleCounter ) {
 					setCycleCounter( 0 );
 					setIsShuffled( false );
@@ -266,10 +275,10 @@ const TheLanguageGame = ( props ) => {
 				}
 			}, speed * 1000 );
 		} else {
-			clearInterval( intervalId );
+			clearInterval( intervalId.current );
 		}
 
-		return () => clearInterval( intervalId );
+		return () => clearInterval( intervalId.current );
 	}, [ cycleCounter, gameStatus, gameStatusTransient ] );
 
 	return (
