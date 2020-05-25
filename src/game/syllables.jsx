@@ -59,4 +59,24 @@ export const syllables = [
 		syllable: 'so',
 		translation: 'そ',
 	},
+	{
+		syllable: 'ta',
+		translation: 'た',
+	},
+	{
+		syllable: 'chi',
+		translation: 'ち',
+	},
+	{
+		syllable: 'tsu',
+		translation: 'つ',
+	},
+	{
+		syllable: 'te',
+		translation: 'て',
+	},
+	{
+		syllable: 'to',
+		translation: 'と',
+	},
 ];
